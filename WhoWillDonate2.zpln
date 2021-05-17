@@ -1,0 +1,1085 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%pyspark\ndf = spark.read.parquet(\"hdfs://thankgod/tmp/charity-base-with-status.parquet\")\ndf = df.filter(df[\"CustomerAge\"]>0).drop(\"id\").drop(\"CustomerID\")\nsimple = df.sample(.0236)\ndf.show(4)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:22:53+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+---------------+-----------+-------------+\n|State|CustomerZIPCode|CustomerAge|CharityStatus|\n+-----+---------------+-----------+-------------+\n|   OH|          45503|         51|            1|\n|   PA|          15329|         48|            0|\n|   WV|          25704|         47|            1|\n|   WV|          25262|         78|            0|\n+-----+---------------+-----------+-------------+\nonly showing top 4 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=0",
+              "$$hashKey": "object:4095"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=1",
+              "$$hashKey": "object:4096"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620349763493_982286075",
+      "id": "paragraph_1620349763493_982286075",
+      "dateCreated": "2021-05-07T01:09:23+0000",
+      "dateStarted": "2021-05-11T16:22:53+0000",
+      "dateFinished": "2021-05-11T16:23:21+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:3390"
+    },
+    {
+      "text": "%pyspark\ndf.describe().show()",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T23:52:03+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+------------------+------------------+------------------+-------------------+\n|summary|             State|   CustomerZIPCode|       CustomerAge|      CharityStatus|\n+-------+------------------+------------------+------------------+-------------------+\n|  count|          37826482|          37858264|          37866181|           37866181|\n|   mean|0.2359578939772512|33499.423351058686|49.736062239812355|  0.619529178292366|\n| stddev| 3.806767510770716|11732.480991827539|21.624806657679123|0.48550260736855094|\n|    min|                00|                  |                 1|                  0|\n|    max|                oh|             WB-23|                99|                  1|\n+-------+------------------+------------------+------------------+-------------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=32",
+              "$$hashKey": "object:4158"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620775360448_119924510",
+      "id": "paragraph_1620775360448_119924510",
+      "dateCreated": "2021-05-11T23:22:40+0000",
+      "dateStarted": "2021-05-11T23:52:03+0000",
+      "dateFinished": "2021-05-11T23:54:45+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3391"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.types import StringType,IntegerType\nfrom pyspark.sql.functions import udf\ny_udf = udf(lambda y: \"No\" if y==\"0\" else \"Yes\",StringType())\nsimple = df.withColumn(\"Charity\",y_udf(\"CharityStatus\")).drop(\"CharityStatus\")\nsimple.show(4)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:23:21+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+---------------+-----------+-------+\n|State|CustomerZIPCode|CustomerAge|Charity|\n+-----+---------------+-----------+-------+\n|   OH|          45503|         51|    Yes|\n|   PA|          15329|         48|     No|\n|   WV|          25704|         47|    Yes|\n|   WV|          25262|         78|     No|\n+-----+---------------+-----------+-------+\nonly showing top 4 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=2",
+              "$$hashKey": "object:4216"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620349893993_1495384918",
+      "id": "paragraph_1620349893993_1495384918",
+      "dateCreated": "2021-05-07T01:11:33+0000",
+      "dateStarted": "2021-05-11T16:23:21+0000",
+      "dateFinished": "2021-05-11T16:23:22+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3392"
+    },
+    {
+      "text": "%pyspark\n\ndef age_multiple(age):\n    if(age <= 25):\n        return 'Under 25'\n    elif (age >= 25 and age <= 35):\n        return 'Between 25 and 35'\n    elif (age > 35 and age < 50):\n        return 'Between 36 and 49'\n    elif(age >= 50):\n        return 'Over 50'\n    else:\n        return 'N/A'\n        \n        \nsimple = simple.withColumn(\"CustomerAge\", simple[\"CustomerAge\"].cast(IntegerType()))\nage_multiple_udf = udf(lambda age: age_multiple(age), StringType())\nspark.udf.register(\"age_multiple_udf\", age_multiple_udf)\nsimple = simple.withColumn(\"CustomerAge\",age_multiple_udf(\"CustomerAge\"))\nsimple.show(4)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:23:22+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+---------------+-----------------+-------+\n|State|CustomerZIPCode|      CustomerAge|Charity|\n+-----+---------------+-----------------+-------+\n|   OH|          45503|          Over 50|    Yes|\n|   PA|          15329|Between 36 and 49|     No|\n|   WV|          25704|Between 36 and 49|    Yes|\n|   WV|          25262|          Over 50|     No|\n+-----+---------------+-----------------+-------+\nonly showing top 4 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=3",
+              "$$hashKey": "object:4274"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620351446856_933014377",
+      "id": "paragraph_1620351446856_933014377",
+      "dateCreated": "2021-05-07T01:37:26+0000",
+      "dateStarted": "2021-05-11T16:23:22+0000",
+      "dateFinished": "2021-05-11T16:23:22+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3393"
+    },
+    {
+      "text": "%pyspark\nsimple.select(\"Charity\").show(4)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:23:22+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+\n|Charity|\n+-------+\n|    Yes|\n|     No|\n|    Yes|\n|     No|\n+-------+\nonly showing top 4 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=4",
+              "$$hashKey": "object:4332"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620550894388_1641745257",
+      "id": "paragraph_1620550894388_1641745257",
+      "dateCreated": "2021-05-09T09:01:34+0000",
+      "dateStarted": "2021-05-11T16:23:22+0000",
+      "dateFinished": "2021-05-11T16:23:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3394"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.ml.feature import StringIndexer\nfrom pyspark.ml.feature import OneHotEncoder\nfrom pyspark.ml.feature import VectorAssembler\nfrom pyspark.ml.feature import StandardScaler\n\nstringIndexer_State = StringIndexer().setInputCol(\"State\").setOutputCol(\"State_index\")\nstringIndexer_CustomerZIPCode = StringIndexer().setInputCol(\"CustomerZIPCode\").setOutputCol(\"CustomerZIPCode_index\")\nstringIndexer_CustomerAge = StringIndexer().setInputCol(\"CustomerAge\").setOutputCol(\"CustomerAge_index\")\n\nstringIndexer_State.setHandleInvalid(\"keep\")\nstringIndexer_CustomerZIPCode.setHandleInvalid(\"keep\")\nstringIndexer_CustomerAge.setHandleInvalid(\"keep\")\n\nencoder_State = OneHotEncoder(inputCol=\"State_index\", outputCol=\"State_encoded\")\nencoder_CustomerZIPCode = OneHotEncoder(inputCol=\"CustomerZIPCode_index\", outputCol=\"CustomerZIPCode_encoded\")\nencoder_CustomerAge = OneHotEncoder(inputCol=\"CustomerAge_index\", outputCol=\"CustomerAge_encoded\")\n\nlabel_indexer = StringIndexer().setInputCol(\"Charity\").setOutputCol(\"label\")\nlabel_indexer.setHandleInvalid(\"keep\")\n\nassembler = VectorAssembler().setInputCols([\"State_encoded\",\"CustomerZIPCode_encoded\",\"CustomerAge_encoded\"]).setOutputCol(\"vectorized_features\")\nscaler = StandardScaler().setInputCol(\"vectorized_features\").setOutputCol(\"features\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:23:23+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620431097429_539853416",
+      "id": "paragraph_1620431097429_539853416",
+      "dateCreated": "2021-05-07T23:44:57+0000",
+      "dateStarted": "2021-05-11T16:23:23+0000",
+      "dateFinished": "2021-05-11T16:23:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3396"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.ml import Pipeline\n\npipeline_stages = Pipeline().setStages([stringIndexer_State,stringIndexer_CustomerZIPCode,stringIndexer_CustomerAge,encoder_State,encoder_CustomerZIPCode,encoder_CustomerAge,assembler,label_indexer,scaler])\n\npipeline_model = pipeline_stages.fit(simple)\npipeline_df = pipeline_model.transform(simple)\npipeline_df.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:23:23+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+---------------+-----------------+-------+-----------+---------------------+-----------------+---------------+-----------------------+-------------------+--------------------+-----+--------------------+\n|State|CustomerZIPCode|      CustomerAge|Charity|State_index|CustomerZIPCode_index|CustomerAge_index|  State_encoded|CustomerZIPCode_encoded|CustomerAge_encoded| vectorized_features|label|            features|\n+-----+---------------+-----------------+-------+-----------+---------------------+-----------------+---------------+-----------------------+-------------------+--------------------+-----+--------------------+\n|   OH|          45503|          Over 50|    Yes|        0.0|                 27.0|              0.0|(204,[0],[1.0])|     (15362,[27],[1.0])|      (4,[0],[1.0])|(15570,[0,231,155...|  0.0|(15570,[0,231,155...|\n|   PA|          15329|Between 36 and 49|     No|        2.0|                619.0|              1.0|(204,[2],[1.0])|    (15362,[619],[1.0])|      (4,[1],[1.0])|(15570,[2,823,155...|  1.0|(15570,[2,823,155...|\n|   WV|          25704|Between 36 and 49|    Yes|        1.0|                334.0|              1.0|(204,[1],[1.0])|    (15362,[334],[1.0])|      (4,[1],[1.0])|(15570,[1,538,155...|  0.0|(15570,[1,538,155...|\n|   WV|          25262|          Over 50|     No|        1.0|                316.0|              0.0|(204,[1],[1.0])|    (15362,[316],[1.0])|      (4,[0],[1.0])|(15570,[1,520,155...|  1.0|(15570,[1,520,155...|\n|   OH|          43950|          Over 50|    Yes|        0.0|                  4.0|              0.0|(204,[0],[1.0])|      (15362,[4],[1.0])|      (4,[0],[1.0])|(15570,[0,208,155...|  0.0|(15570,[0,208,155...|\n+-----+---------------+-----------------+-------+-----------+---------------------+-----------------+---------------+-----------------------+-------------------+--------------------+-----+--------------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=5",
+              "$$hashKey": "object:4490"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=6",
+              "$$hashKey": "object:4491"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=7",
+              "$$hashKey": "object:4492"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=8",
+              "$$hashKey": "object:4493"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=9",
+              "$$hashKey": "object:4494"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=10",
+              "$$hashKey": "object:4495"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620431011892_1301791791",
+      "id": "paragraph_1620431011892_1301791791",
+      "dateCreated": "2021-05-07T23:43:31+0000",
+      "dateStarted": "2021-05-11T16:23:23+0000",
+      "dateFinished": "2021-05-11T16:27:17+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3397"
+    },
+    {
+      "text": "%pyspark\npipeline_df.drop(\"vectorized_features\").show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-12T00:03:22+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+---------------+-----------------+-------+-----------+---------------------+-----------------+---------------+-----------------------+-------------------+-----+--------------------+\n|State|CustomerZIPCode|      CustomerAge|Charity|State_index|CustomerZIPCode_index|CustomerAge_index|  State_encoded|CustomerZIPCode_encoded|CustomerAge_encoded|label|            features|\n+-----+---------------+-----------------+-------+-----------+---------------------+-----------------+---------------+-----------------------+-------------------+-----+--------------------+\n|   OH|          45503|          Over 50|    Yes|        0.0|                 27.0|              0.0|(204,[0],[1.0])|     (15362,[27],[1.0])|      (4,[0],[1.0])|  0.0|(15570,[0,231,155...|\n|   PA|          15329|Between 36 and 49|     No|        2.0|                619.0|              1.0|(204,[2],[1.0])|    (15362,[619],[1.0])|      (4,[1],[1.0])|  1.0|(15570,[2,823,155...|\n|   WV|          25704|Between 36 and 49|    Yes|        1.0|                334.0|              1.0|(204,[1],[1.0])|    (15362,[334],[1.0])|      (4,[1],[1.0])|  0.0|(15570,[1,538,155...|\n|   WV|          25262|          Over 50|     No|        1.0|                316.0|              0.0|(204,[1],[1.0])|    (15362,[316],[1.0])|      (4,[0],[1.0])|  1.0|(15570,[1,520,155...|\n|   OH|          43950|          Over 50|    Yes|        0.0|                  4.0|              0.0|(204,[0],[1.0])|      (15362,[4],[1.0])|      (4,[0],[1.0])|  0.0|(15570,[0,208,155...|\n+-----+---------------+-----------------+-------+-----------+---------------------+-----------------+---------------+-----------------------+-------------------+-----+--------------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=34",
+              "$$hashKey": "object:4573"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620777732722_545459479",
+      "id": "paragraph_1620777732722_545459479",
+      "dateCreated": "2021-05-12T00:02:12+0000",
+      "dateStarted": "2021-05-12T00:03:24+0000",
+      "dateFinished": "2021-05-12T00:03:27+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3398"
+    },
+    {
+      "text": "%pyspark\npipeline_df.write.parquet(\"hdfs://thankgod/pipleline.charitystatus.parquet\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T19:48:55+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=24",
+              "$$hashKey": "object:4621"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620760914159_1016162053",
+      "id": "paragraph_1620760914159_1016162053",
+      "dateCreated": "2021-05-11T19:21:54+0000",
+      "dateStarted": "2021-05-11T19:48:55+0000",
+      "dateFinished": "2021-05-11T19:54:59+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3399"
+    },
+    {
+      "text": "%pyspark\ntrain, test = pipeline_df.randomSplit([0.8,0.2],seed=2018)\nprint(\"Training Dataset Count: \" + str(train.count()))\nprint(\"Test Dataset Count: \" + str(test.count()))",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:27:18+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Training Dataset Count: 30292260\nTest Dataset Count: 7573921\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=11",
+              "$$hashKey": "object:4679"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=12",
+              "$$hashKey": "object:4680"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620434225723_381022269",
+      "id": "paragraph_1620434225723_381022269",
+      "dateCreated": "2021-05-08T00:37:05+0000",
+      "dateStarted": "2021-05-11T16:27:18+0000",
+      "dateFinished": "2021-05-11T16:36:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3400"
+    },
+    {
+      "text": "%pyspark\ntrain.groupby(\"Charity\").count().show()",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-12T00:05:49+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+--------+\n|Charity|   count|\n+-------+--------+\n|     No|11527074|\n|    Yes|18765186|\n+-------+--------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=35",
+              "$$hashKey": "object:4742"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=36",
+              "$$hashKey": "object:4743"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=37",
+              "$$hashKey": "object:4744"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=38",
+              "$$hashKey": "object:4745"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=39",
+              "$$hashKey": "object:4746"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620777902139_1564350907",
+      "id": "paragraph_1620777902139_1564350907",
+      "dateCreated": "2021-05-12T00:05:02+0000",
+      "dateStarted": "2021-05-12T00:05:50+0000",
+      "dateFinished": "2021-05-12T02:32:07+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3401"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.ml.classification import LogisticRegression\nlr = LogisticRegression(featuresCol='features',labelCol='label',maxIter=5)\nlrModel = lr.fit(train)\npredictions = lrModel.transform(test)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:36:57+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=13",
+              "$$hashKey": "object:4926"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=14",
+              "$$hashKey": "object:4927"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=15",
+              "$$hashKey": "object:4928"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=16",
+              "$$hashKey": "object:4929"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=17",
+              "$$hashKey": "object:4930"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=18",
+              "$$hashKey": "object:4931"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=19",
+              "$$hashKey": "object:4932"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620520413573_198119001",
+      "id": "paragraph_1620520413573_198119001",
+      "dateCreated": "2021-05-09T00:33:33+0000",
+      "dateStarted": "2021-05-11T16:36:58+0000",
+      "dateFinished": "2021-05-11T16:51:52+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3404"
+    },
+    {
+      "text": "%pyspark\npredictions.write.parquet(\"hdfs://thankgod/predictions.charitystatus.parquet\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T21:36:50+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=27",
+              "$$hashKey": "object:5004"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620760899189_295809251",
+      "id": "paragraph_1620760899189_295809251",
+      "dateCreated": "2021-05-11T19:21:39+0000",
+      "dateStarted": "2021-05-11T21:36:50+0000",
+      "dateFinished": "2021-05-11T22:50:35+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3405"
+    },
+    {
+      "text": "%pyspark\npredictions.select('label','features','rawPrediction','prediction','probability').show()",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:51:52+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+--------------------+--------------------+----------+--------------------+\n|label|            features|       rawPrediction|prediction|         probability|\n+-----+--------------------+--------------------+----------+--------------------+\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n|  1.0|(15570,[15569],[3...|[0.75489765057604...|       0.0|[0.53315685104200...|\n+-----+--------------------+--------------------+----------+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=20",
+              "$$hashKey": "object:5062"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620522016298_1968127777",
+      "id": "paragraph_1620522016298_1968127777",
+      "dateCreated": "2021-05-09T01:00:16+0000",
+      "dateStarted": "2021-05-11T16:51:52+0000",
+      "dateFinished": "2021-05-11T16:53:26+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3406"
+    },
+    {
+      "text": "%pyspark\naccuracy = predictions.filter(predictions.label == predictions.prediction).count() / float(predictions.count())\nprint(\"Accuracy : \",accuracy)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T16:53:26+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Accuracy :  0.6669690639762417\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=21",
+              "$$hashKey": "object:5120"
+            },
+            {
+              "jobUrl": "http://thankgod.fritz.box:4040/jobs/job?id=22",
+              "$$hashKey": "object:5121"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620520535906_506961907",
+      "id": "paragraph_1620520535906_506961907",
+      "dateCreated": "2021-05-09T00:35:35+0000",
+      "dateStarted": "2021-05-11T16:53:27+0000",
+      "dateFinished": "2021-05-11T17:16:39+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3407"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T23:02:09+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620774129797_855524871",
+      "id": "paragraph_1620774129797_855524871",
+      "dateCreated": "2021-05-11T23:02:09+0000",
+      "status": "READY",
+      "$$hashKey": "object:3408"
+    },
+    {
+      "text": "%pyspark\nprint(lr.explainParams())",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T17:16:40+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "aggregationDepth: suggested depth for treeAggregate (>= 2). (default: 2)\nelasticNetParam: the ElasticNet mixing parameter, in range [0, 1]. For alpha = 0, the penalty is an L2 penalty. For alpha = 1, it is an L1 penalty. (default: 0.0)\nfamily: The name of family which is a description of the label distribution to be used in the model. Supported options: auto, binomial, multinomial (default: auto)\nfeaturesCol: features column name. (default: features, current: features)\nfitIntercept: whether to fit an intercept term. (default: True)\nlabelCol: label column name. (default: label, current: label)\nlowerBoundsOnCoefficients: The lower bounds on coefficients if fitting under bound constrained optimization. The bound matrix must be compatible with the shape (1, number of features) for binomial regression, or (number of classes, number of features) for multinomial regression. (undefined)\nlowerBoundsOnIntercepts: The lower bounds on intercepts if fitting under bound constrained optimization. The bounds vector size must beequal with 1 for binomial regression, or the number oflasses for multinomial regression. (undefined)\nmaxBlockSizeInMB: maximum memory in MB for stacking input data into blocks. Data is stacked within partitions. If more than remaining data size in a partition then it is adjusted to the data size. Default 0.0 represents choosing optimal value, depends on specific algorithm. Must be >= 0. (default: 0.0)\nmaxIter: max number of iterations (>= 0). (default: 100, current: 5)\npredictionCol: prediction column name. (default: prediction)\nprobabilityCol: Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities. (default: probability)\nrawPredictionCol: raw prediction (a.k.a. confidence) column name. (default: rawPrediction)\nregParam: regularization parameter (>= 0). (default: 0.0)\nstandardization: whether to standardize the training features before fitting the model. (default: True)\nthreshold: Threshold in binary classification prediction, in range [0, 1]. If threshold and thresholds are both set, they must match.e.g. if threshold is p, then thresholds must be equal to [1-p, p]. (default: 0.5)\nthresholds: Thresholds in multi-class classification to adjust the probability of predicting each class. Array must have length equal to the number of classes, with values > 0, excepting that at most one value may be 0. The class with largest value p/t is predicted, where p is the original probability of that class and t is the class's threshold. (undefined)\ntol: the convergence tolerance for iterative algorithms (>= 0). (default: 1e-06)\nupperBoundsOnCoefficients: The upper bounds on coefficients if fitting under bound constrained optimization. The bound matrix must be compatible with the shape (1, number of features) for binomial regression, or (number of classes, number of features) for multinomial regression. (undefined)\nupperBoundsOnIntercepts: The upper bounds on intercepts if fitting under bound constrained optimization. The bound vector size must be equal with 1 for binomial regression, or the number of classes for multinomial regression. (undefined)\nweightCol: weight column name. If this is not set or empty, we treat all instance weights as 1.0. (undefined)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620520714024_2796247",
+      "id": "paragraph_1620520714024_2796247",
+      "dateCreated": "2021-05-09T00:38:34+0000",
+      "dateStarted": "2021-05-11T17:16:42+0000",
+      "dateFinished": "2021-05-11T17:16:44+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3409"
+    },
+    {
+      "text": "%pyspark\nimport matplotlib.pyplot as plt\nimport numpy as np\nbeta = np.sort(lrModel.coefficients)\nplt.plot(beta)\nplt.ylabel('Beta Coefficients')\nplt.show()",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T17:16:47+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Py4JJavaError: An error occurred while calling o695.coefficients.\n: org.apache.spark.SparkException: Multinomial models contain a matrix of coefficients, use coefficientMatrix instead.\n\tat org.apache.spark.ml.classification.LogisticRegressionModel.coefficients(LogisticRegression.scala:1023)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)\n\tat py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)\n\tat py4j.Gateway.invoke(Gateway.java:282)\n\tat py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)\n\tat py4j.commands.CallCommand.execute(CallCommand.java:79)\n\tat py4j.GatewayConnection.run(GatewayConnection.java:238)\n\tat java.lang.Thread.run(Thread.java:748)\n\n(<class 'py4j.protocol.Py4JJavaError'>, Py4JJavaError('An error occurred while calling o695.coefficients.\\n', JavaObject id=o790), <traceback object at 0x7f7e2f08aa50>)"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620551325315_1344200186",
+      "id": "paragraph_1620551325315_1344200186",
+      "dateCreated": "2021-05-09T09:08:45+0000",
+      "dateStarted": "2021-05-11T17:16:47+0000",
+      "dateFinished": "2021-05-11T17:16:50+0000",
+      "status": "ERROR",
+      "$$hashKey": "object:3410"
+    },
+    {
+      "text": "%pyspark\nprint(lrModel.coefficientMatrix)",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T23:01:03+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "DenseMatrix([[ 0.21747427,  0.21731936,  0.09740923, ...,  0.21224336,\n              -0.06355432,  0.07601206],\n             [ 0.22350755,  0.22208795,  0.10422756, ...,  0.05437945,\n               0.32848735,  0.1289109 ],\n             [-0.44098182, -0.43940731, -0.20163679, ..., -0.26662281,\n              -0.26493303, -0.20492297]])\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620737129056_1640855498",
+      "id": "paragraph_1620737129056_1640855498",
+      "dateCreated": "2021-05-11T12:45:29+0000",
+      "dateStarted": "2021-05-11T23:01:23+0000",
+      "dateFinished": "2021-05-11T23:02:01+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:3411"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-05-11T12:46:27+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1620737187800_1898311737",
+      "id": "paragraph_1620737187800_1898311737",
+      "dateCreated": "2021-05-11T12:46:27+0000",
+      "status": "READY",
+      "$$hashKey": "object:3412"
+    }
+  ],
+  "name": "WhoWillDonate2",
+  "id": "2G6AA61TT",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/WhoWillDonate2"
+}
